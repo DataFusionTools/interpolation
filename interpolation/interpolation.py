@@ -2,7 +2,7 @@ import numpy as np
 from scipy.spatial import cKDTree, Delaunay
 from scipy import interpolate
 import pykrige
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, asdict, field
 from typing import List, Union, Dict, Optional
 from abc import abstractmethod
 import numpy as np
@@ -228,7 +228,7 @@ class NaturalNeighbor(BaseClassInterpolation):
 class CustomKriging(BaseClassInterpolation):
     two_d: bool = True
     variogram_model: VariogramModel = VariogramModel.linear
-    variogram_parameters: VariogramParameters = VariogramParameters()
+    variogram_parameters: VariogramParameters = field(default_factory=VariogramParameters)
 
     def interpolate(self, training_points, training_data):
         # assign to variables
