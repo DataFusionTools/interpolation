@@ -6,7 +6,7 @@ import math
 
 from core.data_input import Data, Variable
 from interpolation.interpolation_2d_slice import Interpolate2DSlice
-from interpolation.interpolation import Nearest
+from interpolation.interpolation import Nearest, InverseDistance
 from core.data_input import Geometry
 from spatial_utils.ahn_utils import SpatialUtils
 from interpolation.interpolation_inv_distance_per_depth import InverseDistancePerDepth
@@ -42,7 +42,7 @@ class TestInterpolate2DSlice:
                 )
             )
         # run test
-        interpolator = Interpolate2DSlice()
+        interpolator = Interpolate2DSlice(interpolation_method_surface=InverseDistance(nb_near_points=2))
         points_2d_slice, results_2d_slice = interpolator.get_2d_slice_extra(
             location_1=cpts_list[0].location,
             location_2=cpts_list[-1].location,
@@ -96,7 +96,7 @@ class TestInterpolate2DSlice:
             variables=[Variable(label="test_value", value=value_3)],
         )
         method = InverseDistancePerDepth(nb_near_points=2)
-        interpolator = Interpolate2DSlice()
+        interpolator = Interpolate2DSlice(interpolation_method_surface=InverseDistance(nb_near_points=2))
         points_2d_slice, results_2d_slice, variance = interpolator.get_2d_slice_per_depth_inverse_distance(
             location_1=location_1,
             location_2=location_3,
@@ -150,7 +150,7 @@ class TestInterpolate2DSlice:
             independent_variable=Variable(label="depth", value=depth_3),
             variables=[Variable(label="test_value", value=value_3)],
         )
-        interpolator = Interpolate2DSlice()
+        interpolator = Interpolate2DSlice(interpolation_method_surface=InverseDistance(nb_near_points=2))
         points_2d_slice, results_2d_slice = interpolator.get_2d_slice_extra(
             location_1=location_1,
             location_2=location_3,
@@ -194,7 +194,7 @@ class TestInterpolate2DSlice:
         location_1 = Geometry(x=64348.1, y=393995.8, z=0)
         location_2 = Geometry(x=64663.8, y=393960.3, z=0)
 
-        interpolator = Interpolate2DSlice()
+        interpolator = Interpolate2DSlice(interpolation_method_surface=InverseDistance(nb_near_points=2))
         points_2d_slice, results_2d_slice = interpolator.get_2d_slice_extra(
             location_1=location_1,
             location_2=location_2,
@@ -236,7 +236,7 @@ class TestInterpolate2DSlice:
         location_2 = Geometry(x=64348, y=393860, z=0)
         interpolator_slice = Nearest()
 
-        interpolator = Interpolate2DSlice()
+        interpolator = Interpolate2DSlice(interpolation_method_surface=InverseDistance(nb_near_points=2))
         points_2d_slice, results_2d_slice = interpolator.get_2d_slice_extra(
             location_1=location_1,
             location_2=location_2,
@@ -281,7 +281,7 @@ class TestInterpolate2DSlice:
         location_2 = Geometry(x=64663.8, y=393995, z=0)
         interpolator_slice = Nearest()
 
-        interpolator = Interpolate2DSlice()
+        interpolator = Interpolate2DSlice(interpolation_method_surface=InverseDistance(nb_near_points=2))
         points_2d_slice, results_2d_slice = interpolator.get_2d_slice_extra(
             location_1=location_1,
             location_2=location_2,
@@ -308,7 +308,7 @@ class TestInterpolate2DSlice:
         location_2 = Geometry(x=64443.8, y=393995, z=0)
         interpolator_slice = Nearest()
 
-        interpolator = Interpolate2DSlice()
+        interpolator = Interpolate2DSlice(interpolation_method_surface=InverseDistance(nb_near_points=2))
         closest_top = interpolator.get_user_defined_surface(
             location_1=location_1,
             location_2=location_2,
@@ -350,7 +350,7 @@ class TestInterpolate2DSlice:
         location_2 = Geometry(x=64443.8, y=393995, z=0)
         interpolator_slice = Nearest()
 
-        interpolator = Interpolate2DSlice()
+        interpolator = Interpolate2DSlice(interpolation_method_surface=InverseDistance(nb_near_points=2))
         points_2d_slice, results_2d_slice = interpolator.get_2d_slice_extra(
             location_1=location_1,
             location_2=location_2,
