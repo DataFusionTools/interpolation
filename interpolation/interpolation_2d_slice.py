@@ -219,9 +219,9 @@ class Interpolate2DSlice:
         for data_point in data:
             variable  = data_point.get_variable(interpolate_variable)
             data_as_list.append(variable.value)
-        type_in_list = np.array([type(point) for data_point in data_as_list for point in data_point])
+        type_in_list = np.array([type(point) for data_point in data_as_list for point in data_point if point is not None])
         # check if all types are the same
-        if not np.all(type_in_list == type_in_list[0]):
+        if not(np.all(type_in_list[type_in_list == type_in_list[0]])):
             raise ValueError(f"Data list provided has inconsistent types for variable {interpolate_variable}.")
         return type_in_list[0]
 
