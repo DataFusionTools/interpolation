@@ -7,7 +7,7 @@ from interpolation.interpolation_inv_distance_per_depth import InverseDistancePe
 import numpy as np
 from scipy.interpolate import griddata
 from scipy.spatial import distance
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import List
 import math
 from scipy.stats import linregress
@@ -45,8 +45,8 @@ class Interpolate2DSlice:
         methods. linear is the default.
     """
 
-    interpolation_method_surface: BaseClassInterpolation = InverseDistance(
-        nb_near_points=2
+    interpolation_method_surface: BaseClassInterpolation = field(
+        default_factory=Nearest
     )
     griddata_interpolation_method: str = "linear"
 
