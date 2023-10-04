@@ -202,29 +202,24 @@ class Interpolate2DSlice:
             target_encoded = self.encoder.transform(variable.value)
             data_point.update_variable(interpolate_variable, target_encoded)
             data[counter] = data_point
-        return data        
+        return data
 
-
-    def get_type_of_variable(self,data: List[Data], interpolate_variable: str):
-        """
-        Function that checks if data provided by the user are consistent. Checks that the
-        same type is used for all data.
-        
-        :param data: dataset with all available data
-        :param interpolate_variable: Variable that the 2d slice will be interpolated for        
-
-        :returns: Type of data found
-        """
+    def get_type_of_variable(self, data: List[Data], interpolate_variable: str):
         data_as_list = []
+
+        # Iterate through the Data objects and extract the specified variable
         for data_point in data:
-            variable  = data_point.get_variable(interpolate_variable)
-            data_as_list.append(variable.value)
-        type_in_list = np.array([type(point) for data_point in data_as_list for point in data_point if point is not None])
-        # check if all types are the same
-        if not(np.all(type_in_list[type_in_list == type_in_list[0]])):
+            variable = data_point.get_variable(interpolate_variable)
+            data_as_list.append(variable.value if variable else None)
+
+        # Filter out None values and get their types
+        non_none_values = [point for point in data_as_list if point is not None]
+        type_in_list = np.array([type(point) for point in non_none_values])
+
+        # Check if all types are the same
+        if not np.all(type_in_list == type_in_list[0]):
             raise ValueError(f"Data list provided has inconsistent types for variable {interpolate_variable}.")
         return type_in_list[0]
-
 
     def get_user_defined_surface(
         self,
