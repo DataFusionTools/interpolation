@@ -144,10 +144,10 @@ class Interpolate2DSlice:
             location_1, location_2, data, number_of_points, top_surface, bottom_surface
         )
         # check if interpolated value is string and if so encode
-        #encoded = False
-        #if self.get_type_of_variable(data, interpolate_variable) == str:
-        #    encoded = True
-        #    data = self.encode_string_data(data, interpolate_variable)
+        encoded = False
+        if self.get_type_of_variable(data, interpolate_variable) == str:
+            encoded = True
+            data = self.encode_string_data(data, interpolate_variable)
 
         # make interpolation model
         (
@@ -205,12 +205,13 @@ class Interpolate2DSlice:
         return data
 
     def get_type_of_variable(self, data: List[Data], interpolate_variable: str):
-        data_types = set()
+        data_types = []
 
         for data_point in data:
             variable = data_point.get_variable(interpolate_variable)
             if variable:
-                data_types.add(type(variable.value))
+                data_types.append(type(variable.value[0]))
+        data_types = set(data_types)
 
         if len(data_types) == 1:
             return data_types.pop()
