@@ -205,21 +205,17 @@ class Interpolate2DSlice:
         return data
 
     def get_type_of_variable(self, data: List[Data], interpolate_variable: str):
-        data_as_list = []
+        data_types = set()
 
-        # Iterate through the Data objects and extract the specified variable
         for data_point in data:
             variable = data_point.get_variable(interpolate_variable)
-            data_as_list.append(variable.value if variable else None)
+            if variable:
+                data_types.add(type(variable.value))
 
-        # Filter out None values and get their types
-        non_none_values = [point for point in data_as_list if point is not None]
-        type_in_list = np.array([type(point) for point in non_none_values])
-
-        # Check if all types are the same
-        if not np.all(type_in_list == type_in_list[0]):
+        if len(data_types) == 1:
+            return data_types.pop()
+        else:
             raise ValueError(f"Data list provided has inconsistent types for variable {interpolate_variable}.")
-        return type_in_list[0]
 
     def get_user_defined_surface(
         self,
