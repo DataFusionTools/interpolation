@@ -144,10 +144,10 @@ class Interpolate2DSlice:
             location_1, location_2, data, number_of_points, top_surface, bottom_surface
         )
         # check if interpolated value is string and if so encode
-        encoded = False
-        if self.get_type_of_variable(data, interpolate_variable) == str:
-            encoded = True
-            data = self.encode_string_data(data, interpolate_variable)
+        #encoded = False
+        #if self.get_type_of_variable(data, interpolate_variable) == str:
+        #    encoded = True
+        #    data = self.encode_string_data(data, interpolate_variable)
 
         # make interpolation model
         (
